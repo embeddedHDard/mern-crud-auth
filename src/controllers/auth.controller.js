@@ -4,9 +4,16 @@ import bcrypt from 'bcryptjs'
 import {createAccessToken} from '../libs/jwt.js'
 
 export const register = async(req, res) => {
-    const {username, email, password } = req.body
+    const {username, email, password } = req.body    
 
-    try {
+    try {       
+         const userFound = await User.findOne({ email });
+
+         if(userFound){
+            return res.status(400).json(["Email already in use"]);
+        }
+           
+
         const passwordHash = await bcrypt.hash(password, 10); //string aleatorio encriptado  para la contraseña  
         
         const newUser = new User({

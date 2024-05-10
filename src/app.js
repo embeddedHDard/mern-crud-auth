@@ -3,8 +3,15 @@ import morgan from 'morgan';
 import authRoutes from './routes/auth.routes.js'
 import authTasks from './routes/tasks.routes.js'
 import cookieParser from 'cookie-parser' //para poder leer las cookies
+import cors from 'cors'
+
+const corsOptions = {
+   origin: '*',
+   optionsSuccessStatus: 200,
+ };
 
 const app = express();
+app.use(cors(corsOptions));
 app.use(morgan('dev'));
 app.use(express.json());
 app.use(cookieParser());
