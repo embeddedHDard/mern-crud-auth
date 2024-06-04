@@ -6,8 +6,9 @@ import cookieParser from 'cookie-parser' //para poder leer las cookies
 import cors from 'cors'
 
 const corsOptions = {
-   origin: '*',
+   origin: 'http://localhost:5173',
    optionsSuccessStatus: 200,
+   credentials: true
  };
 
 const app = express();

@@ -1,6 +1,7 @@
 import { createContext, useState, useContext, useEffect } from "react"; // Creacion de contexto, en este caso para autenticar usuarios, para englobar todo lo necesario a compartir por todos
                                        // Un contexto en React es una forma de pasar datos a través del árbol de componentes sin tener que pasar props manualmente en cada nivel.
-import { registerRequest, loginRequest} from '../api/auth';
+import { registerRequest, loginRequest, verifyTokenRequest} from '../api/auth';
+import Cookies from 'js-cookie'
 
 export const AuthContext = createContext(); // crear un objeto que actúa como un "almacén" para ciertos datos que deseas compartir entre componentes. 
                                      // Luego, los componentes que necesitan acceder a esos datos pueden suscribirse a este contexto 
@@ -28,6 +29,7 @@ export const AuthProvider = ({children}) => {
     const [user, setUser] = useState(null);
     const [isAuthenticated, setisAuthenticated] = useState(false);
     const [errors, setErrors] = useState([]);
+    const [loading, setLoading] = useState(true)
 
     const signup = async (user) => {
         try{
@@ -49,13 +51,19 @@ export const AuthProvider = ({children}) => {
             setisAuthenticated(true)
         }catch(error){
             //console.log(error.response)
-            if(Array.isArray(error.response.data)){ //Si es un array lo que viene en el error, que lo setee y pueda hacerle el map
-                return setErrors(error.response.data);
-            }
-            setErrors([error.response.data.message]); //lo que te viene como response de un error si al hacer el signup no te deja, pq exista el email ya por ejemplo. Si no es un array, 
+            // if(Array.isArray(error.response.data)){ //Si es un array lo que viene en el error, que lo setee y pueda hacerle el map
+            //     return setErrors(error.response.data);
+            // }
+            // setErrors([error.response.data.message]); //lo que te viene como response de un error si al hacer el signup no te deja, pq exista el email ya por ejemplo. Si no es un array, 
                                                         // lo meto dentro de un array       
         }
     };
+
+    const logout = () => {
+        Cookies.remove("token");
+        setUser(null);
+        setisAuthenticated(false);
+      };
 
     useEffect(  ()  =>  { //Eliminamos errores que se muestran después de 5 segundos
         if(errors.length > 0){
@@ -66,11 +74,44 @@ export const AuthProvider = ({children}) => {
         }
     }, [errors])
 
+    useEffect(  ()  =>  { 
+        const checkLogin = async () => {
+            const cookies = Cookies.get();
+            if(!cookies.token){
+                setisAuthenticated(false);
+                setLoading(false);
+                setUser(null);           
+                return;
+            }
+
+            try{
+                const res = await verifyTokenRequest(cookies.token)
+                if(!res.data){
+                    setisAuthenticated(false);
+                    setLoading(false);
+                    return;
+                }    
+
+                setisAuthenticated(true);
+                setUser(res.data);
+                setLoading(false)
+            }catch(error){
+                    setLoading(false);
+                    setisAuthenticated(false);
+                    setUser(null);
+            }            
+            
+       }
+       checkLogin();
+    }, [])
+
 
     return(
         <AuthContext.Provider value = {{
             signup,
+            logout,
             user,
+            loading,
             isAuthenticated, 
             errors,
             signin

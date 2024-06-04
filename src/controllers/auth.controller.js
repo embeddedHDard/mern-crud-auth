@@ -1,5 +1,7 @@
 import User from '../models/user.model.js'
 import bcrypt from 'bcryptjs'
+import jwt from 'jsonwebtoken'
+import {TOKEN_SECRET} from '../config.js'
 
 import {createAccessToken} from '../libs/jwt.js'
 
@@ -95,4 +97,26 @@ export const profile = async (req, res) => {
      });
 
     //res.status(200).json("Profile");
+};
+
+export const verifyToken = async (req, res) => {
+    const {token} = req.cookies;
+
+    if(!token) res.status(401).json({message: "Sin autorizacion"});
+
+    jwt.verify(token, TOKEN_SECRET, async (err, user) => {
+        if (err) res.status(401).json({message: "Sin autorizacion"});
+
+        const userFound = await User.findById(user.id )
+
+        if(!userFound)
+            return res.status(401).json({message: "Sin autorizacion"});
+
+        return res.json({
+            id: userFound.id,
+            username: userFound.username,
+            email: userFound.email
+        });
+    });
+
 };
