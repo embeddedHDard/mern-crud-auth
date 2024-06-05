@@ -6,7 +6,7 @@ import cookieParser from 'cookie-parser' //para poder leer las cookies
 import cors from 'cors'
 
 const corsOptions = {
-   origin: 'http://localhost:5173',
+   origin: ['http://localhost:5173', 'http://127.0.0.1:5173'],
    optionsSuccessStatus: 200,
    credentials: true
  };

@@ -1,10 +1,11 @@
 import { useEffect } from "react";
 import { useAuth } from "../context/AuthContext";
 import { useTasks } from "../context/TasksContext";
-
+import TaskCard from "../components/TaskCard"; 
 
 function TaskPage() {
-  const {user} = useAuth();
+  const {isAuthenticated } = useAuth();
+   console.log(isAuthenticated)
   const { getTasks, tasks } = useTasks();
   useEffect(() => {
     getTasks();
@@ -12,14 +13,11 @@ function TaskPage() {
     return (
       
       <div className='w-full bg-zinc-700 text-white px-4 py-2 rounded-md my-2'>
-        <div >
-          {tasks.map((task) => (
-              <div key={task._id} className="grid md:grid-cols-2 lg:grid-cols-3 gap-2">
-                <h1>{task.title}</h1>
-                <p>{task.description}</p>
-              </div>
-          ))}
-        </div>
+          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-2">
+                  {tasks.map((task) => (
+                    <TaskCard task={task} key={task._id} />
+                  ))}
+          </div>
       </div>
     );
   }

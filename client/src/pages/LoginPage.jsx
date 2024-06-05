@@ -9,13 +9,14 @@ function LoginPage() {
   const {signin, isAuthenticated, errors:signInErrors } = useAuth();
   const navigate = useNavigate();
 
+  const onSubmit = handleSubmit( (data)=>{
+    signin(data);
+})
+
   useEffect(()    =>  { // Si cuando isAuthenticated es 1, navega a /task
+    console.log(isAuthenticated)
     if(isAuthenticated) navigate('/tasks');
 }, [isAuthenticated])
-
-   const onSubmit = handleSubmit( (data)=>{
-     signin(data);
- })
 
   return (      
       <div className="flex justify-center items-center h-screen">
