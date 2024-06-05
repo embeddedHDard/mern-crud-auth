@@ -1,11 +1,18 @@
+import { useTasks } from "../context/TasksContext";
+import { Link } from 'react-router-dom'
+
 function TaskCard({ task }) {
+    const { deleteTask } = useTasks();
+
     return(        
-        <div className='bg-zinc-800 max-w-md text-white p-10 rounded-md my-2'>
-            <h1 className="text-2xl font-bold" >{task.title}</h1>
-            <div>
-                <button>Delete</button>
-                <button>Edit</button>
-            </div>
+        <div className='bg-zinc-800 max-w-md text-white p-10 rounded-md my-2'>            
+            <header className="flex justify-between">
+                <h1 className="text-2xl font-bold" >{task.title}</h1>
+                <div className="flex gap-x-2 items-center">
+                    <button onClick={() => deleteTask(task._id)}>Delete</button>
+                    <Link to={`/tasks/${task._id}`}>Edit</Link>
+                </div>
+            </header>
             <p className="text-slate-300">{task.description}</p>
             <p className="text-slate-300">{new Date(task.date).toLocaleDateString()}</p>
         </div>        

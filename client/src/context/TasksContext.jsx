@@ -26,7 +26,7 @@ export function TaskProvider({ children }) {
   const deleteTask = async (id) => {
     try {
       const res = await deleteTaskRequest(id);
-      if (res.status === 204) setTasks(tasks.filter((task) => task._id !== id));
+      if (res.status === 204) setTasks(tasks.filter((task) => task._id !== id)); //Da un nuevo array con todas las tareas excepto la que se elimina
     } catch (error) {
       console.log(error);
     }
