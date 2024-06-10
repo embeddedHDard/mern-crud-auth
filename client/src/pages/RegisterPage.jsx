@@ -30,11 +30,11 @@ function RegisterPage(){
                 <form onSubmit={onSubmit} className="flex flex-col items-center">
                     <input type="text" {...register("username", {required:true})} 
                         className="w-full bg-zinc-700 text-white px-4 py-2 rounded-md my-2"
-                        placeholder='username'
+                        placeholder='usuario'
                         />
                         {
                             errors.username && (
-                                <p className='text-red-500'>'Username is required</p>
+                                <p className='text-red-500'>Usuario requerido</p>
                             )
                         }
                     <input type="email" {...register("email", {required:true})} 
@@ -43,7 +43,7 @@ function RegisterPage(){
                         />
                         {
                             errors.email && (
-                                <p className='text-red-500'>'Email is required</p>
+                                <p className='text-red-500'>Email requerido</p>
                             )
                         }
                     <input type="password" {...register("password", {required:true})} 
@@ -52,12 +52,12 @@ function RegisterPage(){
                         />
                         {
                             errors.password && (
-                                <p className='text-red-500'>'Password is required</p>
+                                <p className='text-red-500'>Password requerido</p>
                             )
                         }
-                    <button type="submit" className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded mt-4"> Register</button>
+                    <button type="submit" className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded mt-4"> Registro</button>
                 </form>
-                <p className="text-white px-2 py-2 rounded-md my-2 text-center"> Do you have an account? <Link to= "/login" className='text-sky-500'>Sign up</Link></p>
+                <p className="text-white px-2 py-2 rounded-md my-2 text-center"> ¿Tiene una cuenta? <Link to= "/login" className='text-sky-500'>Login</Link></p>
             </div>
         </div>
     )

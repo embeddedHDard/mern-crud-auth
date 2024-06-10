@@ -5,7 +5,6 @@ import TaskCard from "../components/TaskCard";
 
 function TaskPage() {
   const {isAuthenticated } = useAuth();
-   console.log(isAuthenticated)
   const { getTasks, tasks } = useTasks();
   useEffect(() => {
     getTasks();

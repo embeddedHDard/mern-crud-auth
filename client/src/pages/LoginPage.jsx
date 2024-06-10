@@ -36,7 +36,7 @@ function LoginPage() {
               placeholder="email"
             />
             {errors.email && (
-              <p className="text-red-500">Email is required</p>
+              <p className="text-red-500">Email requerido</p>
             )}
             <input
               type="password"
@@ -45,7 +45,7 @@ function LoginPage() {
               placeholder="password"
             />
             {errors.password && (
-              <p className="text-red-500">Password is required</p>
+              <p className="text-red-500">Password requerido</p>
             )}
             <button
               type="submit"
@@ -54,7 +54,7 @@ function LoginPage() {
               Login
             </button>
           </form>
-          <p className="text-white px-2 py-2 rounded-md my-2 text-center">Dont have an account? <Link to= "/register" className='text-sky-500'>Sign up</Link></p>
+          <p className="text-white px-2 py-2 rounded-md my-2 text-center">¿No tiene una cuenta? <Link to= "/register" className='text-sky-500'>Regístrese</Link></p>
           </div>
     </div>
   );
